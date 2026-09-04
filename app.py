@@ -305,13 +305,16 @@ def render_sidebar() -> dict:
 
         # API Key
         env_key = os.getenv("GOOGLE_API_KEY", "")
-        api_key = st.text_input(
+        user_key = st.text_input(
             "🔑 Google API Key",
-            value=env_key,
+            value="",
             type="password",
-            help="Enter your Google API key or set it in .env file.",
-            placeholder="your-api-key...",
+            help="Your API key is securely loaded on the server. Enter a custom key here only if you want to override it.",
+            placeholder="🔒 Secure key loaded" if env_key else "Enter your Gemini API key...",
         )
+        api_key = user_key.strip() if user_key.strip() else env_key
+        if env_key and not user_key.strip():
+            st.caption("🔒 *Pre-configured API key active*")
 
         st.markdown("")
 
@@ -705,7 +708,7 @@ def main():
     if analyze_clicked:
         # Validation
         if not config["api_key"]:
-            st.error("❌ Please enter your OpenAI API key in the sidebar.")
+            st.error("❌ Please enter your Google API key in the sidebar.")
             return
 
         if not resume_text:
