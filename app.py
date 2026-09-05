@@ -306,21 +306,27 @@ def render_sidebar() -> dict:
         # API Key
         env_key = os.getenv("GOOGLE_API_KEY", "")
         user_key = st.text_input(
-            "🔑 Google API Key",
+            "🔑 Google Gemini API Key",
             value="",
             type="password",
-            help="Your API key is securely loaded on the server. Enter a custom key here only if you want to override it.",
-            placeholder="🔒 Secure key loaded" if env_key else "Enter your Gemini API key...",
+            help="Get a free API key from Google AI Studio. Paste it here to run resume analysis.",
+            placeholder="🔒 Pre-configured key active" if env_key else "Paste AI Studio API key (AIzaSy...)",
         )
         api_key = user_key.strip() if user_key.strip() else env_key
+        
         if env_key and not user_key.strip():
             st.caption("🔒 *Pre-configured API key active*")
+        else:
+            st.markdown(
+                "💡 **Don't have a key?** [Get Free Gemini API Key ↗](https://aistudio.google.com/app/apikey)",
+                help="Google AI Studio provides free Gemini API access with no credit card required.",
+            )
 
         st.markdown("")
 
         # Model Selection
         env_model = os.getenv("GEMINI_MODEL", "gemini-3.1-flash-lite")
-        model_options = ["gemini-3.1-flash-lite", "gemini-2.5-flash", "gemini-2.0-flash", "gemini-2.5-pro"]
+        model_options = ["gemini-3.1-flash-lite", "gemini-2.5-flash", "gemini-2.0-flash", "gemini-3.1-pro-preview"]
         default_idx = model_options.index(env_model) if env_model in model_options else 0
         model_name = st.selectbox(
             "🤖 Model",
@@ -708,7 +714,10 @@ def main():
     if analyze_clicked:
         # Validation
         if not config["api_key"]:
-            st.error("❌ Please enter your Google API key in the sidebar.")
+            st.error(
+                "❌ **Google Gemini API Key is missing!** Please enter your API key in the sidebar.\n\n"
+                "👉 Don't have one? Get a free key instantly from [Google AI Studio (aistudio.google.com/app/apikey)](https://aistudio.google.com/app/apikey)."
+            )
             return
 
         if not resume_text:

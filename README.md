@@ -101,7 +101,7 @@ ai-resume-reviewer/
 | **Streamlit** | Web UI framework |
 | **LangChain** | LLM orchestration framework |
 | **LangChain LCEL** | Expression language for chain composition (`prompt \| llm \| parser`) |
-| **LangChain OpenAI** | OpenAI API integration |
+| **LangChain Google GenAI** | Google Gemini API integration |
 | **PydanticOutputParser** | Forces structured JSON output from the LLM |
 | **Pydantic v2** | Data validation and serialization |
 | **PyPDFLoader** | PDF text extraction |
@@ -138,18 +138,20 @@ pip install -r requirements.txt
 
 ### 4. Configure Environment Variables
 
+Get your free Gemini API key from [Google AI Studio](https://aistudio.google.com/app/apikey).
+
 ```bash
 cp .env.example .env
 ```
 
-Edit `.env` and add your OpenAI API key:
+Edit `.env` and add your Google API key:
 
 ```env
-OPENAI_API_KEY=sk-your-actual-key-here
-OPENAI_MODEL_NAME=gpt-4o-mini
+GOOGLE_API_KEY=your_google_api_key_here
+GEMINI_MODEL=gemini-3.1-flash-lite
 ```
 
-> **Note:** You can also enter the API key directly in the sidebar UI.
+> **Note:** You can also enter or override the API key directly in the Streamlit sidebar UI at runtime.
 
 ### 5. Run the Application
 
